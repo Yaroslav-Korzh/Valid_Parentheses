@@ -1,34 +1,29 @@
 package org.example;
 
-public class Meth {
-    public boolean isValid(String strs) {
-        char a = '(';
-        char aa = ')';
-        char b = '[';
-        char bb = ']';
-        char c = '{';
-        char cc = '}';
-        int a1 = 0; int a2 = 0; int b1 = 0; int b2 = 0; int c1 = 0; int c2 = 0;
-        boolean result;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
-        for (int i = 0; i < strs.length(); i++) {
-            if (strs.charAt(i) == a) {
-                a1++;
-            } else if (strs.charAt(i) == aa) {
-                a2++;
-            } else if (strs.charAt(i) == b) {
-                b1++;
-            } else if (strs.charAt(i) == bb) {
-                b2++;
-            } else if (strs.charAt(i) == c) {
-                c1++;
-            } else if (strs.charAt(i) == cc) {
-                c2++;
+public class Meth {
+    public boolean isValid(String s) {
+        Map<Character, Character> brackets = new HashMap<>();
+        brackets.put(')', '(');
+        brackets.put('}', '{');
+        brackets.put(']', '[');
+
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!brackets.containsKey(c)) {
+                stack.push(c);
+            } else {
+                char top = stack.isEmpty() ? '?' : stack.pop();
+                if (brackets.get(c) != top) {
+                    return false;
+                }
             }
         }
-        if (a1 == a2 && b1 == b2 && c1 == c2) {
-            result = true;
-        } else result = false;
-        return result;
+        return stack.isEmpty();
     }
 }
